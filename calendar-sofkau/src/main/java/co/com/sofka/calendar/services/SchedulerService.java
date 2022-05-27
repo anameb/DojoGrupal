@@ -5,6 +5,8 @@ import co.com.sofka.calendar.model.ProgramDate;
 import co.com.sofka.calendar.repositories.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,20 +25,23 @@ public class SchedulerService {
     @Autowired
     private ProgramRepository programRepository;
 
-    //TODO: deben retornar un flux de programDate Flux<ProgramDate>
-    public List<ProgramDate> generateCalendar(String programId, LocalDate startDate) {
+    //TODO: deben retornar un flux de programDate Flux<ProgramDate> Listo
+    public Flux<ProgramDate> generateCalendar(String programId, LocalDate startDate) {
         var endDate = new AtomicReference<>(LocalDate.from(startDate));
+
         final AtomicInteger[] pivot = {new AtomicInteger()};
         final int[] index = {0};
 
-        //TODO: debe pasarlo a reactivo, no puede trabaja elementos bloqueantes
-        //TODO: trabajar el map reactivo y no deben colectar
-        var program = programRepository.findById(programId).block();
-        return Optional.ofNullable(program)
-                .map(this::getDurationOf)
-                .orElseThrow(() -> new RuntimeException("El programa academnico no existe"))
+        //TODO: debe pasarlo a reactivo, no puede trabaja elementos bloqueantes listo
+        //TODO: trabajar el map reactivo y no deben colectar listo
+        var program = programRepository.findById(programId);
+
+        Flux <ProgramDate> resultado = program
+                .flatMapMany(c -> Flux.fromStream(getDurationOf(c)))//Para convertir de Mono a Flux
                 .map(toProgramDate(startDate, endDate, pivot[0], index))
-                .collect(Collectors.toList());
+                .switchIfEmpty(Mono.error(new RuntimeException("No existe")));
+
+        return (resultado);
     }
 
     //No tocar
