@@ -4,3 +4,5 @@ Profe Raul ,nuevamente buenas tardes, como te comentaba por whatssap, yo no real
 
 
 Juan Pablo Davila Bedoya: Julian Camilo Mesa aportó desde el inicio con ideas y procedimientos que podríamos hacer desde un google meet grupal, tambien aportó en pair programming.
+
+Ana Milena Estrada: Trabajo realizado por todos los integrantes del grupo-- julian camilo, juan pablo davila, adicional a esto me gustaria que observe cada TODO que se debia modificar por que todos fueron realizados, sino que nosotros no los borramos de donde estaban pero los cambios si se hicieron. de lo contrario no se hubiera pasado al DOJO 2 y no se hubiera enviado. 
